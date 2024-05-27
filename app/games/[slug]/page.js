@@ -1,4 +1,6 @@
 "use client";
+import SearchComponent from "@/components/SearchComponent";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { useState } from "react";
 
@@ -17,7 +19,6 @@ const filteredArray = [];
 const indexes = [];
 
 function RecomenderPage({ params, data }) {
-  console.log(params.slug);
 
   const [index, setIndex] = useState(0);
   let rndNum;
@@ -48,9 +49,8 @@ function RecomenderPage({ params, data }) {
   return (
     <div className="card w-1/2 my-10 bg-base-100 shadow-xl relative left-1/2 -translate-x-1/2">
       <figure>
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-          alt="Shoes"
+        <SearchComponent
+          search={filteredArray[indexes[index]].Title}
         />
       </figure>
       <div className="card-body">
