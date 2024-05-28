@@ -4,6 +4,7 @@ export default function SearchComponent(props) {
   const [query, setQuery] = useState("");
   const [videos, setVideos] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (props.search) {
@@ -16,15 +17,17 @@ export default function SearchComponent(props) {
     setVideos([]);
 
     try {
+      setLoading(true);
       const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
       if (!res.ok) {
         throw new Error("Error fetching data");
       }
       const data = await res.json();
       setVideos(data.items || []);
+      setLoading(false);
     } catch (error) {
-      setError(error);
-      return console.log("FEIL");
+      setError(error.message);
+      setLoading(false);
     }
   };
 
@@ -32,15 +35,25 @@ export default function SearchComponent(props) {
     handleSearch();
   }, [query]);
 
+  if (error && loading) {
+    return <p>Error: {error}</p>;
+  }
+
+  if (loading) {
+    throw new Promise(() => {});
+  }
+
   return (
-    <div>
-        {videos.length > 0 && (
-            <iframe
-              src={`https://www.youtube.com/embed/${videos[0].id.videoId}`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              title="YouTube video player"
-            />
-          )}
-    </div>
+    <>
+      {videos.length > 0 && (
+        <iframe
+          className="w-full h-64 md:h-96"
+          src={`https://www.youtube.com/embed/${videos[0].id.videoId}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="YouTube video player"
+        />
+      )}
+    </>
   );
 }

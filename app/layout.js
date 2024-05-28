@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html data-theme="night" lang="en">
       <body className={inter.className}>
-        <nav className="bg-slate-100 bg-opacity-20 relative left-1/2 -translate-x-1/2 w-2/3 mt-5 py-3 px-2 rounded-xl md:w-50 flex justify-between items-center">
+        <nav className="bg-neutral relative left-1/2 -translate-x-1/2 w-2/3 mt-5 py-3 px-2 rounded-xl md:w-50 flex justify-between items-center">
           <Link href="/"><Image src={controller} width={50} height={50} alt="controller logo" /></Link>
           <Link className="hover:bg-white hover:bg-opacity-20 p-2 rounded-lg" href="/"><h3>GameMoods</h3></Link>
           <div className="w-10"></div>
