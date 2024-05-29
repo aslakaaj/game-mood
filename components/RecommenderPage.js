@@ -1,6 +1,7 @@
 "use client";
 import LoadingVideo from "@/components/LoadingVideo";
 import SearchComponent from "@/components/SearchComponent";
+import { notFound } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Suspense } from "react";
 
@@ -31,7 +32,10 @@ export default function RecommenderPage({ params, data }) {
   }
 
   if (filteredArray.length === 0 || indexes.length === 0) {
-    return <div>Loading...</div>;
+    if (params.slug != data.Feeling.toLowerCase()) {
+      return notFound();
+    }
+    return <span className="loading loading-spinner loading-lg absolute left-1/2 top-1/2 -translate-x-1/2"></span>;
   }
 
   return (
@@ -49,13 +53,13 @@ export default function RecommenderPage({ params, data }) {
           </h2>
         </div>
         <p>{filteredArray[indexes[index]].Description}</p>
-        <div className="card-actions justify-end">
+        <div className="card-actions justify-end mt-5">
           {index > 0 && (
-            <button className="btn btn-secondary" onClick={prevClickHandler}>
+            <button className="btn btn-secondary text-white" onClick={prevClickHandler}>
               Previous
             </button>
           )}
-          <button className="btn btn-secondary" onClick={nextClickHandler}>
+          <button className="btn btn-secondary text-white" onClick={nextClickHandler}>
             Next!
           </button>
         </div>
