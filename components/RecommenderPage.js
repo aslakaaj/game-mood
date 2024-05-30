@@ -13,6 +13,11 @@ export default function RecommenderPage({ params, data }) {
   useEffect(() => {
     // Reset the filtered array and indexes when params change
     const newFilteredArray = data.filter(game => game.Feeling.toLowerCase() === params.slug);
+
+    if (newFilteredArray.length === 0) {
+      notFound();
+    }
+
     const initialIndex = Math.floor(Math.random() * newFilteredArray.length);
     setFilteredArray(newFilteredArray);
     setIndexes([initialIndex]);
@@ -32,9 +37,7 @@ export default function RecommenderPage({ params, data }) {
   }
 
   if (filteredArray.length === 0 || indexes.length === 0) {
-    if (params.slug != data.Feeling.toLowerCase()) {
-      return notFound();
-    }
+
     return <span className="loading loading-spinner loading-lg absolute left-1/2 top-1/2 -translate-x-1/2"></span>;
   }
 
